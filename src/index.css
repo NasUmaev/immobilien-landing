@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+@keyframes drift1 {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(180px, -120px, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes drift2 {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(-220px, 140px, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes drift3 {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(140px, 180px, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes drift4 {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(-160px, -100px, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.nebula-a {
+  animation: drift1 38s ease-in-out infinite;
+}
+
+.nebula-b {
+  animation: drift2 52s ease-in-out infinite;
+}
+
+.nebula-c {
+  animation: drift3 46s ease-in-out infinite;
+}
+
+.nebula-d {
+  animation: drift4 60s ease-in-out infinite;
+}
