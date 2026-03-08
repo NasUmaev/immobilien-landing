@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from "react";
 
 export default function ImmobilienLandingMockup() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
   const [selectedOption, setSelectedOption] = useState("Anliegen auswählen");
 
   const cardRef = useRef(null);
@@ -19,31 +20,50 @@ export default function ImmobilienLandingMockup() {
   ];
 
   useEffect(() => {
-    const animate = () => {
-      const card = cardRef.current;
-      if (!card) {
-        animationFrameRef.current = requestAnimationFrame(animate);
-        return;
-      }
+  const checkScreen = () => {
+    setIsDesktop(window.innerWidth >= 1024);
+  };
 
-      currentRotation.current.x +=
-        (targetRotation.current.x - currentRotation.current.x) * 0.1;
-      currentRotation.current.y +=
-        (targetRotation.current.y - currentRotation.current.y) * 0.1;
+  checkScreen();
+  window.addEventListener("resize", checkScreen);
 
-      card.style.transform = `perspective(1000px) rotateX(${currentRotation.current.x}deg) rotateY(${currentRotation.current.y}deg) scale(1.01)`;
+  return () => window.removeEventListener("resize", checkScreen);
+}, []);
 
+  useEffect(() => {
+  if (!isDesktop) {
+    const card = cardRef.current;
+    if (card) {
+      card.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)";
+    }
+    return;
+  }
+
+  const animate = () => {
+    const card = cardRef.current;
+    if (!card) {
       animationFrameRef.current = requestAnimationFrame(animate);
-    };
+      return;
+    }
+
+    currentRotation.current.x +=
+      (targetRotation.current.x - currentRotation.current.x) * 0.1;
+    currentRotation.current.y +=
+      (targetRotation.current.y - currentRotation.current.y) * 0.1;
+
+    card.style.transform = `perspective(1000px) rotateX(${currentRotation.current.x}deg) rotateY(${currentRotation.current.y}deg) scale(1.01)`;
 
     animationFrameRef.current = requestAnimationFrame(animate);
+  };
 
-    return () => {
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
-    };
-  }, []);
+  animationFrameRef.current = requestAnimationFrame(animate);
+
+  return () => {
+    if (animationFrameRef.current) {
+      cancelAnimationFrame(animationFrameRef.current);
+    }
+  };
+}, [isDesktop]);
 
   const services = [
     {
@@ -166,44 +186,56 @@ export default function ImmobilienLandingMockup() {
             <div
               ref={cardRef}
               className="group relative w-full max-w-md overflow-hidden rounded-[2rem] border border-white/10 bg-white/5 p-6 shadow-2xl backdrop-blur-xl will-change-transform"
-              onMouseMove={(e) => {
-                const card = cardRef.current;
-                if (!card) return;
+              onMouseMove={
+                isDesktop
+                  ? (e) => {
+                      const card = cardRef.current;
+                      if (!card) return;
 
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
+                      const rect = card.getBoundingClientRect();
+                      const x = e.clientX - rect.left;
+                      const y = e.clientY - rect.top;
 
-                const glow = glowRef.current;
-                if (glow) {
-                  glow.style.opacity = "1";
-                  glow.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(251,191,36,0.18), transparent 60%)`;
-                }
+                      const glow = glowRef.current;
+                      if (glow) {
+                        glow.style.opacity = "1";
+                        glow.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(251,191,36,0.18), transparent 60%)`;
+                      }
 
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
+                      const centerX = rect.width / 2;
+                      const centerY = rect.height / 2;
 
-                targetRotation.current.y = ((x - centerX) / centerX) * 2;
-                targetRotation.current.x = -((y - centerY) / centerY) * 2;
-              }}
-              onMouseLeave={() => {
-                targetRotation.current.x = 0;
-                targetRotation.current.y = 0;
+                      targetRotation.current.y = ((x - centerX) / centerX) * 2;
+                      targetRotation.current.x = -((y - centerY) / centerY) * 2;
+                    }
+                  : undefined
+              }
+              onMouseLeave={
+                isDesktop
+                  ? () => {
+                      targetRotation.current.x = 0;
+                      targetRotation.current.y = 0;
 
-                const glow = glowRef.current;
-                if (glow) {
-                  glow.style.opacity = "0";
-                }
-              }}
+                      const glow = glowRef.current;
+                      if (glow) {
+                        glow.style.opacity = "0";
+                      }
+                    }
+                  : undefined
+              }
             >
-              <div
-                ref={glowRef}
-                className="pointer-events-none absolute inset-0 z-0 opacity-0 transition-opacity duration-300"
-              />
+              {isDesktop && (
+                <div
+                  ref={glowRef}
+                  className="pointer-events-none absolute inset-0 z-0 opacity-0 transition-opacity duration-300"
+                />
+              )}
 
-              <div className="pointer-events-none absolute inset-0 overflow-hidden">
-                <div className="absolute -left-full top-0 h-full w-1/2 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 transition-all duration-700 group-hover:left-full group-hover:opacity-100" />
-              </div>
+              {isDesktop && (
+                <div className="pointer-events-none absolute inset-0 overflow-hidden">
+                  <div className="absolute -left-full top-0 h-full w-1/2 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 transition-all duration-700 group-hover:left-full group-hover:opacity-100" />
+                </div>
+              )}
 
               <div className="relative z-10">
                 <div className="mb-5 flex items-center justify-between">
