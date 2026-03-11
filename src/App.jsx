@@ -20,6 +20,27 @@ export default function ImmobilienLandingMockup() {
   ];
 
   useEffect(() => {
+  const sections = document.querySelectorAll(".fade-in-section");
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
+      });
+    },
+    {
+      threshold: 0.2
+    }
+  );
+
+  sections.forEach((section) => observer.observe(section));
+
+  return () => observer.disconnect();
+}, []);
+
+  useEffect(() => {
     const checkScreen = () => {
       setIsDesktop(window.innerWidth >= 1024);
     };
@@ -312,7 +333,7 @@ export default function ImmobilienLandingMockup() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-20 md:px-10 lg:px-12">
+      <section className="fade-in-section mx-auto max-w-7xl px-6 py-20 md:px-10 lg:px-12">
         <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="text-sm uppercase tracking-[0.3em] text-amber-300/80">Leistungen</p>
@@ -339,7 +360,7 @@ export default function ImmobilienLandingMockup() {
         </div>
       </section>
 
-      <section className="border-y border-white/10 bg-white/[0.02]">
+      <section className="fade-in-section border-y border-white/10 bg-white/[0.02]">
         <div className="mx-auto grid max-w-7xl gap-10 px-6 py-20 md:px-10 lg:grid-cols-[0.9fr_1.1fr] lg:px-12">
           <div>
             <p className="text-sm uppercase tracking-[0.3em] text-amber-300/80">Warum wir</p>
@@ -366,7 +387,7 @@ export default function ImmobilienLandingMockup() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-20 md:px-10 lg:px-12">
+      <section className="fade-in-section mx-auto max-w-7xl px-6 py-20 md:px-10 lg:px-12">
         <div className="mb-10 max-w-2xl">
           <p className="text-sm uppercase tracking-[0.3em] text-amber-300/80">Ablauf</p>
           <h3 className="mt-3 text-3xl font-semibold md:text-4xl">
@@ -388,7 +409,7 @@ export default function ImmobilienLandingMockup() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 pb-20 md:px-10 lg:px-12">
+      <section className="fade-in-section mx-auto max-w-7xl px-6 pb-20 md:px-10 lg:px-12">
         <div className="grid gap-6 rounded-[2rem] border border-white/10 bg-gradient-to-br from-white/[0.06] to-white/[0.02] p-8 md:p-10 lg:grid-cols-[1fr_auto] lg:items-center">
           <div>
             <p className="text-sm uppercase tracking-[0.3em] text-amber-300/80">Call to Action</p>
@@ -410,6 +431,60 @@ export default function ImmobilienLandingMockup() {
           </div>
         </div>
       </section>
+     <div className="relative">
+
+     <div className="pointer-events-none absolute top-0 left-0 h-[1px] w-full bg-gradient-to-r from-transparent via-amber-300/70 to-transparent blur-[0.5px]" />
+
+      <footer className="border-t border-white/10 bg-black/40 backdrop-blur">
+        <div className="mx-auto max-w-7xl px-6 py-10 md:px-10 lg:px-12">
+          
+          <div className="grid gap-8 md:grid-cols-3">
+
+            <div>
+              <p className="text-xs uppercase tracking-[0.35em] text-amber-300/80">
+                Immobilienmakler
+              </p>
+              <h4 className="mt-2 text-lg font-semibold">
+                Mustermann Immobilien
+              </h4>
+              <p className="mt-3 max-w-sm text-sm leading-6 text-white/50">
+                Professionelle Vermarktung von Immobilien mit Fokus auf Vertrauen,
+                Transparenz und hochwertige Präsentation.
+              </p>
+            </div>
+
+            <div>
+              <h5 className="text-sm font-semibold text-white/80">
+                Kontakt
+              </h5>
+
+              <ul className="mt-3 space-y-2 text-sm text-white/60">
+                <li>Telefon: +49 123 456789</li>
+                <li>Email: kontakt@mustermann-immobilien.de</li>
+                <li>WhatsApp verfügbar</li>
+              </ul>
+            </div>
+
+            <div>
+              <h5 className="text-sm font-semibold text-white/80">
+                Rechtliches
+              </h5>
+
+              <ul className="mt-3 space-y-2 text-sm text-white/60">
+                <li className="cursor-pointer hover:text-white">Impressum</li>
+                <li className="cursor-pointer hover:text-white">Datenschutz</li>
+              </ul>
+            </div>
+
+          </div>
+
+          <div className="mt-10 border-t border-white/10 pt-6 text-center text-sm text-white/40">
+            © {new Date().getFullYear()} Mustermann Immobilien
+          </div>
+
+        </div>
+      </footer>
+    </div>
     </div>
   );
 }
