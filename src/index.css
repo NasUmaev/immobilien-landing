@@ -48,6 +48,13 @@
   }
 }
 
+.nebula-a,
+.nebula-b,
+.nebula-c,
+.nebula-d {
+  will-change: transform;
+}
+
 .nebula-a {
   animation: drift1 38s ease-in-out infinite;
 }
@@ -62,4 +69,13 @@
 
 .nebula-d {
   animation: drift4 60s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nebula-a,
+  .nebula-b,
+  .nebula-c,
+  .nebula-d {
+    animation: none;
+  }
 }

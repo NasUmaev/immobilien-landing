@@ -20,50 +20,51 @@ export default function ImmobilienLandingMockup() {
   ];
 
   useEffect(() => {
-  const checkScreen = () => {
-    setIsDesktop(window.innerWidth >= 1024);
-  };
+    const checkScreen = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+    };
 
-  checkScreen();
-  window.addEventListener("resize", checkScreen);
+    checkScreen();
+    window.addEventListener("resize", checkScreen);
 
-  return () => window.removeEventListener("resize", checkScreen);
-}, []);
+    return () => window.removeEventListener("resize", checkScreen);
+  }, []);
 
   useEffect(() => {
-  if (!isDesktop) {
-    const card = cardRef.current;
-    if (card) {
-      card.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)";
-    }
-    return;
-  }
-
-  const animate = () => {
-    const card = cardRef.current;
-    if (!card) {
-      animationFrameRef.current = requestAnimationFrame(animate);
+    if (!isDesktop) {
+      const card = cardRef.current;
+      if (card) {
+        card.style.transform =
+          "perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)";
+      }
       return;
     }
 
-    currentRotation.current.x +=
-      (targetRotation.current.x - currentRotation.current.x) * 0.1;
-    currentRotation.current.y +=
-      (targetRotation.current.y - currentRotation.current.y) * 0.1;
+    const animate = () => {
+      const card = cardRef.current;
+      if (!card) {
+        animationFrameRef.current = requestAnimationFrame(animate);
+        return;
+      }
 
-    card.style.transform = `perspective(1000px) rotateX(${currentRotation.current.x}deg) rotateY(${currentRotation.current.y}deg) scale(1.01)`;
+      currentRotation.current.x +=
+        (targetRotation.current.x - currentRotation.current.x) * 0.1;
+      currentRotation.current.y +=
+        (targetRotation.current.y - currentRotation.current.y) * 0.1;
+
+      card.style.transform = `perspective(1000px) rotateX(${currentRotation.current.x}deg) rotateY(${currentRotation.current.y}deg) scale(1.01)`;
+
+      animationFrameRef.current = requestAnimationFrame(animate);
+    };
 
     animationFrameRef.current = requestAnimationFrame(animate);
-  };
 
-  animationFrameRef.current = requestAnimationFrame(animate);
-
-  return () => {
-    if (animationFrameRef.current) {
-      cancelAnimationFrame(animationFrameRef.current);
-    }
-  };
-}, [isDesktop]);
+    return () => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
+  }, [isDesktop]);
 
   const services = [
     {
@@ -126,19 +127,13 @@ export default function ImmobilienLandingMockup() {
 
         <div className="relative mx-auto grid max-w-7xl gap-10 px-6 py-8 md:px-10 lg:grid-cols-[1.1fr_0.9fr] lg:px-12 lg:py-10">
           <div>
-            <div className="mb-8 flex items-center justify-between">
-              <div>
-                <p className="text-xs uppercase tracking-[0.35em] text-amber-300/80">
-                  Immobilienmakler
-                </p>
-                <h1 className="mt-2 text-xl font-semibold tracking-wide">
-                  Mustermann Immobilien
-                </h1>
-              </div>
-
-              <button className="rounded-full bg-amber-300 px-6 py-3 font-medium text-neutral-950 transition-all duration-200 hover:scale-105">
-                Kontakt
-              </button>
+            <div className="mb-8">
+              <p className="text-xs uppercase tracking-[0.35em] text-amber-300/80">
+                Immobilienmakler
+              </p>
+              <h1 className="mt-2 text-xl font-semibold tracking-wide">
+                Mustermann Immobilien
+              </h1>
             </div>
 
             <div className="max-w-2xl">
@@ -157,11 +152,8 @@ export default function ImmobilienLandingMockup() {
               </p>
 
               <div className="mt-8 flex flex-wrap gap-3">
-                <button className="rounded-full bg-amber-300 px-6 py-3 font-medium text-neutral-950 transition-all duration-200 hover:scale-105">
+                <button className="rounded-full bg-amber-300 px-6 py-3 font-medium text-neutral-950 transition-all duration-200 hover:scale-105 hover:shadow-lg hover:shadow-amber-300/20">
                   Kostenlose Beratung
-                </button>
-                <button className="rounded-full border border-white/15 px-6 py-3 font-medium text-white transition-all duration-200 hover:scale-105 hover:bg-white hover:text-neutral-950">
-                  Objekt bewerten
                 </button>
               </div>
 
@@ -307,7 +299,7 @@ export default function ImmobilienLandingMockup() {
                   />
 
                   <button className="w-full rounded-2xl bg-amber-300 px-5 py-3 font-semibold text-neutral-950 transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-xl hover:shadow-amber-300/30 active:translate-y-0">
-                    Anfrage absenden
+                    Beratung anfragen
                   </button>
                 </div>
 
@@ -362,7 +354,10 @@ export default function ImmobilienLandingMockup() {
 
           <div className="grid gap-4 md:grid-cols-2">
             {advantages.map((item) => (
-              <div key={item} className="rounded-[1.5rem] border border-white/10 bg-neutral-900/70 p-5">
+              <div
+                key={item}
+                className="rounded-[1.5rem] border border-white/10 bg-neutral-900/70 p-5"
+              >
                 <div className="mb-4 h-2 w-12 rounded-full bg-amber-300" />
                 <p className="text-lg leading-7 text-white/80">{item}</p>
               </div>
@@ -381,7 +376,10 @@ export default function ImmobilienLandingMockup() {
 
         <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
           {steps.map((item) => (
-            <div key={item.step} className="rounded-[1.75rem] border border-white/10 bg-white/[0.03] p-6">
+            <div
+              key={item.step}
+              className="rounded-[1.75rem] border border-white/10 bg-white/[0.03] p-6"
+            >
               <p className="text-sm tracking-[0.3em] text-white/40">{item.step}</p>
               <h4 className="mt-4 text-xl font-semibold">{item.title}</h4>
               <p className="mt-3 leading-7 text-white/60">{item.text}</p>
@@ -398,13 +396,13 @@ export default function ImmobilienLandingMockup() {
               Bereit für echte Anfragen statt nur hübscher Optik?
             </h3>
             <p className="mt-4 max-w-2xl leading-7 text-white/65">
-              Eine moderne Immobilien-Landingpage, die Vertrauen schafft, klare Anfragen generiert und professionell wirkt.
+              Professionelle Beratung für Verkauf, Kauf und Vermietung Ihrer Immobilie.
             </p>
           </div>
 
           <div className="flex flex-wrap gap-3">
-            <button className="rounded-full bg-amber-300 px-6 py-3 font-medium text-neutral-950 transition-all duration-200 hover:scale-105">
-              Termin anfragen
+            <button className="rounded-full bg-amber-300 px-6 py-3 font-medium text-neutral-950 transition-all duration-200 hover:scale-105 hover:shadow-lg hover:shadow-amber-300/20">
+              Kostenlose Beratung
             </button>
             <button className="rounded-full border border-white/15 px-6 py-3 font-medium text-white transition-all duration-200 hover:scale-105 hover:bg-white hover:text-neutral-950">
               WhatsApp
